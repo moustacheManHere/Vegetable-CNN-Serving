@@ -3,6 +3,7 @@ Compatibility Issues:
     - ca1 keras model was saved with tenforflow version 2.13.0 and I'm using 2.15.0 so some of the layers are not compatible -> got the error "Layer 'layer_normalization_2' expected 2 variables, but received 0"
     - I tried to change the tensorflow version by downgrading my mac to 2.13.0 -> got "'Adam' object has no attribute 'build'" again due to version mismatch
     - In the end I decided to retrain the model from scratch in my Mac using the old dataset
+    - Tensorflow/serving doesn't work on a Mac as it is not supported yet. So I will be using a Image from this repo -> https://github.com/emacski/tensorflow-serving-arm so that it works
 
 [old] Retraining:
     - Dataset is located in DL folder but gitignore will block it cuz its too big
@@ -21,6 +22,29 @@ Next Plan:
     - Save into required format and also visualse some key info for teacher to see.
     - Document Deployment process in the jupyter notebook.
 
+Serving Process:
+    - Prerequsites:
+        - have a model(s) saved in a folder in the TF SavedModel format
+        - have tensorflow/serving or an equivalent installed
+    - Shift the Model to a different location that is more accessible -> in my case it is /Users/sriramjeyakumar
+    - Run the TF Serving image using -> 
+        ``` docker run --name cnn_models -p 8501:8501 -v "/Users/sriramjeyakumar/Production/model_config.config:/models/model_config.config" -v "/Users/sriramjeyakumar/Production/cnn_large:/models/cnn_large" -v "/Users/sriramjeyakumar/Production/cnn_small:/models/cnn_small" -t emacski/tensorflow-serving:latest-linux_arm64  --model_config_file=/models/model_config.config ```
+        - Specify model to bind to /Users/sriramjeyakumar/Production/cnn which is where I stored my model
+        - Open port 8501 to send requests to model
+        - Name the model as CNN
+        - Use the custom TF serving image from Emacski to be compatible with M1 Mac 
+
+Wrong commands:
+    - docker run --name cnn_models -p 8501:8501 -v /Users/sriramjeyakumar/Production/cnn/large:/models/cnn -e MODEL_NAME=large -t emacski/tensorflow-serving:latest-linux_arm64
+    - docker run --name cnn_models -p 8501:8501 -v /Users/sriramjeyakumar/Production/cnn:/models/cnn -e MODEL_NAME=large -t emacski/tensorflow-serving:latest-linux_arm64
+    - docker run --name cnn_models -p 8501:8501 -v /Users/sriramjeyakumar/Production/cnn/large:/models/cnn -e MODEL_NAME=large -t emacski/tensorflow-serving:latest-linux_arm64
+
+Docker Command Fix:
+    - Save models in diff directories
+    - docker run --name cnn_models -p 8501:8501 -v "/Users/sriramjeyakumar/Production/cnn_large:/models/cnn_large" -e MODEL_NAME=cnn_large -t emacski/tensorflow-serving:latest-linux_arm64
+    - This command works so I will modify it to load both models into one container
+    - Need to use a config file to tell tensorflow to load both models.
+    - docker run --name cnn_models -p 8501:8501 -v "/Users/sriramjeyakumar/Production/model_config.config:/models/model_config.config" -v "/Users/sriramjeyakumar/Production/cnn_large:/models/cnn_large" -v "/Users/sriramjeyakumar/Production/cnn_small:/models/cnn_small" -t emacski/tensorflow-serving:latest-linux_arm64  --model_config_file=/models/model_config.config
 
 Testing:
     - Planned testing will include testing TF apis as well as the accuracy of the model.

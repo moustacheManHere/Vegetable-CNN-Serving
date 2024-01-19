@@ -20,3 +20,7 @@ Next Plan:
     - I will choose two simple CNN models (31x31 and 128x128) and retrain them as I havent saved the weights during CA1
     - Save into required format and also visualse some key info for teacher to see.
     - Document Deployment process in the jupyter notebook.
+
+
+Testing:
+    - Planned testing will include testing TF apis as well as the accuracy of the model.

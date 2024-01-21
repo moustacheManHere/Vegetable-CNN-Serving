@@ -46,5 +46,32 @@ Docker Command Fix:
     - Need to use a config file to tell tensorflow to load both models.
     - docker run --name cnn_models -p 8501:8501 -v "/Users/sriramjeyakumar/Production/model_config.config:/models/model_config.config" -v "/Users/sriramjeyakumar/Production/cnn_large:/models/cnn_large" -v "/Users/sriramjeyakumar/Production/cnn_small:/models/cnn_small" -t emacski/tensorflow-serving:latest-linux_arm64  --model_config_file=/models/model_config.config
 
+Creating Development Container:
+    - Forgot that I need to do all this in a development container so it's not too late and I will be creating one
+    - docker pull python:3.9.18 -> using cuz its same as my mac
+    - Ran 
+    ```docker run -it -v /var/run/docker.sock:/var/run/docker.sock --name CNN_Server python:3.9.18 sh -c "apt-get update ; apt-get install docker.io -y ; bash" ```
+    - Used VSCode Remote Explorer to open up container and pulled my git repo
+    - python -m venv en -> in the root not project folder as I dont want my env to be in the git
+    - source ./env/bin/activate
+    - python -m pip install tensorflow
+    - pip install matplotlib seaborn numpy pytest
+    - pip freeze >> ca2-daaa2b01-2214618-jeyakumarsriram-dl/requirements.txt
+    - apt-get install iputils-ping
+    - docker network create dl_network
+    - docker network connect dl_network cnn_models
+    - docker network connect dl_network CNN_Server
+    - Later if needed can setup again but simply using the requirements.txt file
+
+Connecting Docker to Tensorflow Server:
+
+
+Some more fixes for creating CNN_server:
+    - Realised that my docker doesn have the docker command cuz during the mounting, I only mounted the docker.sock but not the docker
+    - Docker container uses 3.8 while my mac uses 3.11 so i'm going to change the python version too while I'm at it
+    - Going to recreate container
+    - Using 3.9.18 so I can have the same python version as my laptop for consistency
+    - I finally fixed all the docker errors but having a simple script at the end to install docker.io but also preserve my docker.socket that is mounted from my computer
+
 Testing:
     - Planned testing will include testing TF apis as well as the accuracy of the model.

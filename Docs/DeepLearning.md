@@ -28,7 +28,7 @@ Serving Process:
         - have tensorflow/serving or an equivalent installed
     - Shift the Model to a different location that is more accessible -> in my case it is /Users/sriramjeyakumar
     - Run the TF Serving image using -> 
-        ``` docker run --name cnn_models -p 8501:8501 -v "/Users/sriramjeyakumar/Production/model_config.config:/models/model_config.config" -v "/Users/sriramjeyakumar/Production/cnn_large:/models/cnn_large" -v "/Users/sriramjeyakumar/Production/cnn_small:/models/cnn_small" -t emacski/tensorflow-serving:latest-linux_arm64  --model_config_file=/models/model_config.config ```
+        ``` docker run --name cnn_models --restart always -p 8501:8501 -v "/Users/sriramjeyakumar/Production/model_config.config:/models/model_config.config" -v "/Users/sriramjeyakumar/Production/cnn_large:/models/cnn_large" -v "/Users/sriramjeyakumar/Production/cnn_small:/models/cnn_small" -t emacski/tensorflow-serving:latest-linux_arm64  --model_config_file=/models/model_config.config ```
         - Specify model to bind to /Users/sriramjeyakumar/Production/cnn which is where I stored my model
         - Open port 8501 to send requests to model
         - Name the model as CNN
@@ -63,7 +63,10 @@ Creating Development Container:
     - docker network connect dl_network CNN_Server
     - Later if needed can setup again but simply using the requirements.txt file
 
-Connecting Docker to Tensorflow Server:
+Testing TF Serving:
+    - During the testing for the container, I found that whenever a bad input is given, the container simply crashes and stops
+    - I will add a "--restart always" flag to restart contianer even if it crashes.
+    - The restart policy works but
 
 
 Some more fixes for creating CNN_server:

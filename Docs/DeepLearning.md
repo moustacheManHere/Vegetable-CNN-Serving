@@ -75,3 +75,5 @@ Some more fixes for creating CNN_server:
 
 Testing:
     - Planned testing will include testing TF apis as well as the accuracy of the model.
+    - I have written pytest to test consistency, range, expected failure and unexpected failures. 
+    - For now I am testing the local URL but soon I will move to the Cloud URl once I deploy it. I will just need to change one var in the conftest.py

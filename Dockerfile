@@ -1,4 +1,4 @@
-FROM emacski/tensorflow-serving:latest-linux_arm64
+FROM tensorflow/serving:latest
 
 WORKDIR /models
 

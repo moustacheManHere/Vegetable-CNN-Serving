@@ -86,3 +86,4 @@ Deployment:
     - I used a simple dockerfile to serve my models. I just had to load my models and my config files onto the image and expose the right ports
     - While deploying my code, I faced a compatibility error. Since I have been using a custom Tensorflow/Serving image that is made for my ARM chip, the same image does not run on Render as they used Linux
     - I solved this by using the "normal" Tensorflow Serving image when deploying and a custom one when running locally. It ain't great but I have to do it
+    - I also changed the URL in the pytest and reran it. As expected it works flawlessly which means my render model is working.

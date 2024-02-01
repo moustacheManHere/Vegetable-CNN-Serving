@@ -102,3 +102,7 @@ Setting Up Git LFS:
 - Confirm installation with `git lfs` and see the output.
 - Run `git lfs install` inside your project folder to initialise it in your repo
 - Run `git lfs track "*/*/variables/*"` to track the files. Actually I could just track all the files inside the cnn_large and small but I realised that only the variables folder was large as it contained the weights. So I will only upload that for git lfs and keep the rest cuz they are just metadata. 
+
+
+CICD Pipeline:
+    - I tried to find a way to train my models online but I couldn't find a GPU enabled option that suits my needs. So I will be downscaling abit and training my models locally and just using LFS to push them up

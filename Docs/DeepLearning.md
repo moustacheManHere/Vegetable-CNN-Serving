@@ -109,3 +109,4 @@ Setting up CICD:
 - I will setup another Render Container that is used to testsing. First I will deploy to that and run pytest on it. If it succeds then I will deploy to the main container
 - I could do this with just one container, but I dont want to risk deploying a wrong commit to the main container before testing. That doesnt seem to be good practice. 
 - I will disbale automatic redeploy in both Test and Production containers so that it would wait for my deploy hook.
+- After facing some errors with the yml file, I finally managed to get the CICD working. 

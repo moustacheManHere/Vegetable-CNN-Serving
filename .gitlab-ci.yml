@@ -46,4 +46,4 @@ deployment:
   only:
     - releases
   dependencies:
-    - test
+    - pytest

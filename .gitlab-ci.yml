@@ -3,7 +3,7 @@ stages:
 
 test-cnn:
   stage: test
-  image: python:3.9.18
+  image: python:3.9.18-alpine
   services:
     - docker:20.10.11-dind
   script:

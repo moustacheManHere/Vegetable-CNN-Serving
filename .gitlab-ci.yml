@@ -8,6 +8,8 @@ test_deployment:
   script:
     - curl -s "$TEST_DEPLOY"
     - sleep 1m
+  only:
+    - releases
 
 pytest:
   stage: test
@@ -16,7 +18,6 @@ pytest:
     - pip install -r requirements.txt
     - python -m pytest --junitxml=report.xml
     - TEST_CODE=$?
-    - echo "Test Exit Code: $TEST_CODE"
     - |
       if [ $TEST_CODE -eq 0 ]; then
         echo "Tests are all passed!"
@@ -32,9 +33,17 @@ pytest:
   retry:
     max: 2
     when: 
-      - on_failure
+      - always
+  only:
+    - releases
+  dependencies:
+    - test_deployment
 
 deployment:
   stage: deploy
   script:
     - curl -s "$PROD_DEPLOY"
+  only:
+    - releases
+  dependencies:
+    - test

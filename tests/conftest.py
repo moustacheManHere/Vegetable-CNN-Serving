@@ -11,7 +11,7 @@ def preprocess(image_path,size):
     image_array = np.array(image)[:, :, np.newaxis] / 255.0  # Normalize pixel values to [0, 1]
     return [image_array.tolist()]
 
-URL = "https://vegetablecnn-053e.onrender.com/v1/models"
+URL = "http://localhost:8501/v1/models"
 
 @pytest.fixture
 def get_image_small():

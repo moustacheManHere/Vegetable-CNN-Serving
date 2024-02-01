@@ -1,93 +1,115 @@
-# CA2-DAAA2B01-2214618-JeyakumarSriram-DL
+# Vegetable Mania!!
 
+This is a Deep Learning project that utilises TensorFlow Keras to build Convolutional Neural Networks to predict the type of vegetable present in an image. We will be using Tensorflow Serving along with Render.com to host and serve our Deep Learning model via API.
 
+## For Developers
 
-## Getting started
+### Current Model Structure:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+cnn_small:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/4618-devops/ca2-daaa2b01-2214618-jeyakumarsriram-dl.git
-git branch -M main
-git push -uf origin main
+Input (31, 31, 1)
+   |
+Conv2D(16, 3x3) -> BatchNormalization -> MaxPooling2D
+   |
+Conv2D(32, 3x3) -> BatchNormalization -> MaxPooling2D
+   |
+Conv2D(64, 3x3) -> BatchNormalization -> MaxPooling2D
+   |
+Flatten
+   |
+Dense(64, ReLU)
+   |
+Dropout(0.5)
+   |
+Dense(15, Softmax)
 ```
 
-## Integrate with your tools
+cnn_large:
 
-- [ ] [Set up project integrations](https://gitlab.com/4618-devops/ca2-daaa2b01-2214618-jeyakumarsriram-dl/-/settings/integrations)
+```
+Input (128, 128, 1)
+   |
+Conv2D(32, 3x3) -> BatchNormalization -> MaxPooling2D
+   |
+Conv2D(64, 3x3) -> BatchNormalization -> MaxPooling2D
+   |
+Conv2D(128, 3x3) -> BatchNormalization -> MaxPooling2D
+   |
+Conv2D(256, 3x3) -> BatchNormalization -> MaxPooling2D
+   |
+Flatten
+   |
+Dense(256, ReLU) -> BatchNormalization -> Dropout(0.5)
+   |
+Dense(128, ReLU) -> BatchNormalization -> Dropout(0.5)
+   |
+Dense(15, Softmax)
 
-## Collaborate with your team
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
 
-## Test and Deploy
+### Training Instructions
 
-Use the built-in continuous integration in GitLab.
+To train this model, it is highly recommended to use the dataset [hosted here](https://www.kaggle.com/datasets/moustacheman/vegetable-images). However, you have the flexibility to supply your own dataset if necessary.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+If opting for the recommended dataset, download it to the root of this project with the directory name "Vegetable Images". Ensure your project structure looks like:
 
-***
+```
+📁 Your_Project_Root
+│
+├── 📁 Vegetable Images
+│   ├── ... (dataset contents)
+│
+├── main.ipynb
+```
 
-# Editing this README
+If using a different dataset, simply edit the `ROOT` constant in `main.ipynb` as required.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+🚀 **CUDA-enabled GPU**: For faster training, ensure your system has a CUDA-enabled GPU.
 
-## Suggestions for a good README
+⚙️ **Environment Setup**: Remember to configure your Python environment, preferably version 3.9.18, using the `requirements.txt` file to ensure compatibility. You can use the following command:
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+```bash
+pip install -r requirements.txt
+```
 
-## Name
-Choose a self-explaining name for your project.
+Happy training! 🌿🤭
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Deployment Instructions
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Ensure your directory follows this structure:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+```
+📁 Your_Project_Root
+│
+├── 📁 cnn_small
+│   ├── ... (model contents)
+├── 📁 cnn_large
+│   ├── ... (model contents)
+|
+├── Dockerfile
+│
+├── model_config.config
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+To test the model locally, build a Docker Container using the TensorFlow image according to the instructions given in the `main.ipynb`. 
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+> If you are using a M Series Macbook, use the `localDockerfile` instead for compatibility. Remember to change back the file when deploying to Render.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+## Project Files
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+| File/Folder      | Type   | Description                                                       |
+|-------------------|--------|-------------------------------------------------------------------|
+| cnn_large         | Folder | Directory containing a CNN in the TensorFlow SavedModel format. Used to predict 128 x 128 images. |
+| cnn_small         | Folder | Directory containing a CNN in the TensorFlow SavedModel format. Used to predict 31 x 31 images.    |
+| Docs              | Folder | Contains notes I've written documenting various parts of the project. Also contained screenshots of key steps taken. |
+| tests             | Folder | Running PyTest to ensure Render.com container is running.          |
+| DL                | Folder | Contains notebook used to research and find optimal models.        |
+| Dockerfile        | File   | Used to build the image to be deployed to Render.com.              |
+| localDockerfile   | File   | For Mac users facing incompatibility with TensorFlow Serving to use and run local containers.   |
+| main.ipynb        | File   | Contains notebook used to build and train the Deep Learning model. |
+| model_config.cfg  | File   | Used to configure the TensorFlow model to be served.               |
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.

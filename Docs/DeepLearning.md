@@ -80,3 +80,32 @@ Testing:
     - Planned testing will include testing TF apis as well as the accuracy of the model.
     - I have written pytest to test consistency, range, expected failure and unexpected failures. 
     - For now I am testing the local URL but soon I will move to the Cloud URl once I deploy it. I will just need to change one var in the conftest.py
+
+
+Deployment:
+    - I used a simple dockerfile to serve my models. I just had to load my models and my config files onto the image and expose the right ports
+    - While deploying my code, I faced a compatibility error. Since I have been using a custom Tensorflow/Serving image that is made for my ARM chip, the same image does not run on Render as they used Linux
+    - I solved this by using the "normal" Tensorflow Serving image when deploying and a custom one when running locally. It ain't great but I have to do it
+    - I also changed the URL in the pytest and reran it. As expected it works flawlessly which means my render model is working.
+
+Changing Deployment:
+    - After viewing the current state of the repo, I find that the models are very large and not suitable to be present in a normal repo. Everytime the model is changed, it si very inefficent as git is not design to track models. 
+    - To fix this I will be attempting to use Git Large File Storage (LFS) to store my model isntead. 
+    - To enable it, we just need to check the LFS box shown in the screen shot called "Git LFS Setting"
+
+Setting Up Git LFS:
+- For windows, it is installed by default so you dont have to
+- For mac just use `brew install git-lfs`
+- But since we using a linux environment inside the docker container, we will have to download the scripts and manually install it. 
+- `curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash` to download. dont need sudo cuz its inside a container
+- `apt-get install git-lfs` to install. It will show some errors and stuff but don't be confused, it has been installed
+- Confirm installation with `git lfs` and see the output.
+- Run `git lfs install` inside your project folder to initialise it in your repo
+- Run `git lfs track "*/*/variables/*"` to track the files. Actually I could just track all the files inside the cnn_large and small but I realised that only the variables folder was large as it contained the weights. So I will only upload that for git lfs and keep the rest cuz they are just metadata. 
+
+
+Setting up CICD:
+- After trying to run a docker container within gitlab cicd and being unable to get it going, I will try a different albeit inferior approach
+- I will setup another Render Container that is used to testsing. First I will deploy to that and run pytest on it. If it succeds then I will deploy to the main container
+- I could do this with just one container, but I dont want to risk deploying a wrong commit to the main container before testing. That doesnt seem to be good practice. 
+- I will disbale automatic redeploy in both Test and Production containers so that it would wait for my deploy hook.

@@ -2,10 +2,10 @@ FROM tensorflow/serving:latest
 
 WORKDIR /models
 
-COPY DL/cnn_large /models/cnn_large
-COPY DL/cnn_small /models/cnn_small
+COPY cnn_large /models/cnn_large
+COPY cnn_small /models/cnn_small
 
-COPY DL/model_config.config /models/model_config.config
+COPY model_config.config /models/model_config.config
 
 EXPOSE 8500
 EXPOSE 8501

@@ -8,7 +8,6 @@ test-cnn:
     - name: docker:20.10.12-dind
       alias: dind
   script:
-    - wait_for_docker
     - docker info
     - docker pull tensorflow/serving:latest
     - pip install -r requirements.txt

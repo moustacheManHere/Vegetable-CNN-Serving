@@ -92,3 +92,13 @@ Changing Deployment:
     - After viewing the current state of the repo, I find that the models are very large and not suitable to be present in a normal repo. Everytime the model is changed, it si very inefficent as git is not design to track models. 
     - To fix this I will be attempting to use Git Large File Storage (LFS) to store my model isntead. 
     - To enable it, we just need to check the LFS box shown in the screen shot called "Git LFS Setting"
+
+Setting Up Git LFS:
+- For windows, it is installed by default so you dont have to
+- For mac just use `brew install git-lfs`
+- But since we using a linux environment inside the docker container, we will have to download the scripts and manually install it. 
+- `curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash` to download. dont need sudo cuz its inside a container
+- `apt-get install git-lfs` to install. It will show some errors and stuff but don't be confused, it has been installed
+- Confirm installation with `git lfs` and see the output.
+- Run `git lfs install` inside your project folder to initialise it in your repo
+- Run `git lfs track "*/*/variables/*"` to track the files. Actually I could just track all the files inside the cnn_large and small but I realised that only the variables folder was large as it contained the weights. So I will only upload that for git lfs and keep the rest cuz they are just metadata. 

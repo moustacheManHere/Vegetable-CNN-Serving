@@ -15,12 +15,12 @@ URL = "https://test-cnn.onrender.com/v1/models"
 
 @pytest.fixture
 def get_image_small():
-    image_path = "/root/ca2-daaa2b01-2214618-jeyakumarsriram-dl/Vegetable Images/test/Bean/0001.jpg"
+    image_path = "./0001.jpg"
     return preprocess(image_path,31)
 
 @pytest.fixture
 def get_image_large():
-    image_path = "/root/ca2-daaa2b01-2214618-jeyakumarsriram-dl/Vegetable Images/test/Bean/0001.jpg"
+    image_path = "./0001.jpg"
     return preprocess(image_path,128)
 
 @pytest.fixture

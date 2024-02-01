@@ -102,3 +102,10 @@ Setting Up Git LFS:
 - Confirm installation with `git lfs` and see the output.
 - Run `git lfs install` inside your project folder to initialise it in your repo
 - Run `git lfs track "*/*/variables/*"` to track the files. Actually I could just track all the files inside the cnn_large and small but I realised that only the variables folder was large as it contained the weights. So I will only upload that for git lfs and keep the rest cuz they are just metadata. 
+
+
+Setting up CICD:
+- After trying to run a docker container within gitlab cicd and being unable to get it going, I will try a different albeit inferior approach
+- I will setup another Render Container that is used to testsing. First I will deploy to that and run pytest on it. If it succeds then I will deploy to the main container
+- I could do this with just one container, but I dont want to risk deploying a wrong commit to the main container before testing. That doesnt seem to be good practice. 
+- I will disbale automatic redeploy in both Test and Production containers so that it would wait for my deploy hook.

@@ -7331,12 +7331,11 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.0/mermaid.esm.min.mjs")).default;
     const parser = new DOMParser();
 
     mermaid.initialize({
       maxTextSize: 100000,
-      maxEdges: 100000,
       startOnLoad: false,
       fontFamily: window
         .getComputedStyle(document.body)
@@ -7483,7 +7482,10 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="DevOps">DevOps<a class="anchor-link" href="#DevOps">¶</a></h1><p>I will be using the 128x128 CNN model for my DevOps project. To make it easier to quickly glance the important information I have made this section.</p>
+<h1 id="DevOps">DevOps<a class="anchor-link" href="#DevOps">¶</a></h1><blockquote>
+<p>If you are a teacher and feel bored please read Docs/DeepLearning.md where I documented the nightmares I went through during this project. Also look at the beautiful README I created, it looks nicer on GitLab</p>
+</blockquote>
+<p>I will be using the 128x128 CNN model for my DevOps project. To make it easier to quickly glance the important information I have made this section.</p>
 <h2 id="Development-Environment-Setup">Development Environment Setup<a class="anchor-link" href="#Development-Environment-Setup">¶</a></h2><ul>
 <li>Ensure that you have Docker installed, if not download it at this <a href="https://docs.docker.com/engine/install/">website</a></li>
 <li>Once you are done, run the following commands</li>
@@ -7917,12 +7919,12 @@ pip<span class="w"> </span>install<span class="w"> </span>matplotlib<span class=
 <p>You should change <code>emacski/tensorflow-serving:latest-linux_arm64</code> to <code>tensorflow/serving</code> if you are not using a M Series Mac</p>
 </blockquote>
 <p>Here is the breakdown of the command above:
-- We map the port 8501 to our localhost's port 8501 so we can make requests to it
-- We mount 3 different files: Our two model directories and the config file
-- We use the serving image to create the container
-- We specify to TF Serving the config file</p>
+    - We map the port 8501 to our localhost's port 8501 so we can make requests to it
+    - We mount 3 different files: Our two model directories and the config file
+    - We use the serving image to create the container
+    - We specify to TF Serving the config file</p>
 <p>You should expect to see something like this when it runs</p>
-<p><img alt="serving" src="./Docs/Screenshots/Serve%20Two%20Models.png"/></p>
+<img alt="serving" src="./Docs/Screenshots/Serve%20Two%20Models.png" width="500"/>
 <p>Also run thw following commands to connect your development container to the Tensorflow Server so you have call its api from within your development environment.</p>
 <div class="highlight"><pre><span></span>apt-get<span class="w"> </span>install<span class="w"> </span>iputils-ping
 docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>dl_network
@@ -7930,7 +7932,7 @@ docker<span class="w"> </span>network<span class="w"> </span>connect<span class=
 docker<span class="w"> </span>network<span class="w"> </span>connect<span class="w"> </span>dl_network<span class="w"> </span>CNN_Server
 </pre></div>
 <p>Try <code>ping cnn_models</code> and you should see something like this</p>
-<p><img alt="ping" src="./Docs/Screenshots/DL_Network_Ping.png"/></p>
+<img alt="ping" src="./Docs/Screenshots/DL_Network_Ping.png" width="500"/>
 <h2 id="Checking-if-TensorFlow-Serving-is-Running">Checking if TensorFlow Serving is Running<a class="anchor-link" href="#Checking-if-TensorFlow-Serving-is-Running">¶</a></h2><ol>
 <li><p><strong>Large Model:</strong></p>
 <ul>
@@ -7946,13 +7948,13 @@ docker<span class="w"> </span>network<span class="w"> </span>connect<span class=
 </li>
 </ol>
 <p>Open these URLs in your web browser or use tools like <code>curl</code> or <code>wget</code> in the command line to make HTTP requests. If TensorFlow Serving is running and the models are successfully loaded, you should see something like this</p>
-<p><img alt="CNN Large API" src="https://i.ibb.co/LN19B9T/cnn-large-api.png"/>
-<img alt="CNN Small API" src="https://i.ibb.co/bP21QLF/cnn-small-api.png"/></p>
+<img alt="CNN Large API" src="https://i.ibb.co/LN19B9T/cnn-large-api.png" width="500"/>
+<img alt="CNN Small API" src="https://i.ibb.co/bP21QLF/cnn-small-api.png" width="500"/>
 <p>Also run this command that will use pytest to check various parts of our model. It will test the basic functionalities, test the range of the model as well as its consistency.</p>
 <div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pytest
 </pre></div>
 <p>You should expect to see something like this.</p>
-<p><img alt="pytest" src="./Docs/Screenshots/PyTestInit.png"/></p>
+<img alt="pytest" src="./Docs/Screenshots/PyTestInit.png" width="500"/>
 <p>Congrats! 🥳 You have successfully served your models.</p>
 <p>Now they are only accessible in your laptop. If you want to make it accessible everywhere, consider using a cloud solution like <a href="render.com">Render</a> to host your model</p>
 <h2 id="Deployment">Deployment<a class="anchor-link" href="#Deployment">¶</a></h2><p>Before you do any deployment, you need your changes to be pushed to the cloud. But before you commit your changes so far into git, we have to address how you are storing your models.</p>
@@ -7980,12 +7982,12 @@ git<span class="w"> </span>add<span class="w"> </span>.gitattributes
 </pre></div>
 <p>which will show the files that are tracked.</p>
 <p>One more thing, under you GitLab ensure that the LFS option is selected like this</p>
-<p><img alt="lfs" src="./Docs/Screenshots/Git%20LFS%20Setting.png"/></p>
+<img alt="render" src="./Docs/Screenshots/Git%20LFS%20Setting.png" width="500"/>
 <p>When you deployed to gitlab you will see a Tag like this to signifiy that it is under the LFS server</p>
-<p><img alt="lfd" src="./Docs/Screenshots/GitLFS_gitlab.png"/></p>
+<img alt="success" src="./Docs/Screenshots/GitLFS_gitlab.png" width="500"/>
 <h3 id="Deploying-to-Render">Deploying to Render<a class="anchor-link" href="#Deploying-to-Render">¶</a></h3><p>Ensure that you have committed all your changes to GitLab. You either create a new branch called <code>releases</code> like me or you can just use the main branch for deployment, whatever works for you. I'm treating my <code>main</code> branch more like a development branch while <code>releases</code> is the final branch for me. But again, whatever works for you.</p>
 <p>I would also suggest that you make  <code>releases</code> a protected branch so it can't just be deleted liek this</p>
-<p><img alt="protected" src="./Docs/Screenshots/Protected%20Branch.png"/></p>
+<img alt="success" src="./Docs/Screenshots/Protected%20Branch.png" width="500"/>
 <p>To deploy,</p>
 <ul>
 <li>Create an account on render and log in.</li>
@@ -7995,9 +7997,9 @@ git<span class="w"> </span>add<span class="w"> </span>.gitattributes
 <li>Click deploy and wait for the logs to say your service is live</li>
 </ul>
 <p>You should see something like this if you model deployment was successful.</p>
-<p><img alt="sucess" src="./Docs/Screenshots/Deployed.png"/></p>
+<img alt="success" src="./Docs/Screenshots/Deployed.png" width="500"/>
 <p>Now, edit the pytest/conftest.py file and replace the cnn_model:8501 with the url of your render application and rerun PyTest. You should expect to see something like this.</p>
-<p><img alt="render" src="./Docs/Screenshots/RenderPytest.png"/></p>
+<img alt="render" src="./Docs/Screenshots/RenderPytest.png" width="500"/>
 <h3 id="Setting-Up-CI/CD-Pipeline">Setting Up CI/CD Pipeline<a class="anchor-link" href="#Setting-Up-CI/CD-Pipeline">¶</a></h3><p>This is to basically make you like easier. Whenever you commit into the Releases branch, you want to make sure you code works before it deploys to the internet. Therefore I create a pipeline to test the code before deploying to the production server.</p>
 <p>There are many ways to test a Tensorflow Serving app. I unsuccessfully tried running docker inside the CICD pipeline and test. Therefore, once again, I will show you a less fancy but crud way of solving this problem. Having two deployments: one for testing, one for production.</p>
 <p>Let me explain the process to you. When a commit happens in the <code>releases</code> branch, the following will happen.</p>
@@ -8009,14 +8011,16 @@ git<span class="w"> </span>add<span class="w"> </span>.gitattributes
 <p>The configuration for the Test and Production server are exactly the same so you can test your code without messing up the main server. For this you would need to do a couple of things.</p>
 <ul>
 <li>Setup another render deployment called Test_Server. Follow the exactl same steps you followed just now but different name</li>
-<li>Go to the Settings of both Render deployments, scroll down and disable automatic redeploy. This is to make Render wait for you call before deploying something.
-<img alt="disable" src="./Docs/Screenshots/Deploy%20Hook.png"/></li>
-<li>Copy the Deploy Hook URL into a safe place</li>
-<li>In your gitlab project, go to Settings/CICD and expand the Variables tab. Under which you should add two variables using the two deploy hooks as shown below.
-<img alt="screts" src="./Docs/Screenshots/Secrets%20Gitlab.png"/></li>
-<li>Now edit your <code>tests/conftest</code> file and change the url to your Test Server's url</li>
-<li>Create a <code>.gitlab-ci.yml</code> file in your project's root folder and put the following things in there.</li>
+<li>Go to the Settings of both Render deployments, scroll down and disable automatic redeploy. This is to make Render wait for you call before deploying something.</li>
 </ul>
+<img alt="render" src="./Docs/Screenshots/Deploy%20Hook.png" width="500"/>
+<ul>
+<li>Copy the Deploy Hook URL into a safe place</li>
+<li>In your gitlab project, go to Settings/CICD and expand the Variables tab. Under which you should add two variables using the two deploy hooks as shown below.</li>
+</ul>
+<img alt="render" src="./Docs/Screenshots/Secrets%20Gitlab.png" width="500"/>
+- Now edit your `tests/conftest` file and change the url to your Test Server's url
+- Create a `.gitlab-ci.yml` file in your project's root folder and put the following things in there.
 <div class="highlight"><pre><span></span><span class="nt">stages</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test_deploy</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
@@ -8069,21 +8073,12 @@ git<span class="w"> </span>add<span class="w"> </span>.gitattributes
 </pre></div>
 <p>This pipeline basically does what I said. To point out a few things, the testing stage will retry twice before quitting and with a 1 minite delay inbetween. This delay is included bcause something Render takes very long to deploy and a delay in render deployment shouldn't cause the pipeline to fail. I will also save the PyTest in a report.xml file so that you can view it later. To trigger the redeployment, all you have to do is send a GET request to the Deploy Hook you copied. This can be done using curl. To assess the success of PyTest, we will be utilising the status code. 0 means all tests have passed. Only in that scenario we will deploy the application, if not we will just stop the pipeline using <code>exit 1</code>.</p>
 <p>Now you can try to make a commit in the <code>releases</code> branch. To see your pipeline running go to Build/Pipelines in your GitLab interface. You should seem something like this</p>
-<p><img alt="success" src="./Docs/Screenshots/Pipeline%20Success.png"/></p>
+<img alt="pipeline success" src="./Docs/Screenshots/Pipeline%20Success.png" width="500"/>
 <p>And if you click on the test stage, you can view the results like this</p>
-<p><img alt="report" src="./Docs/Screenshots/CICD%20Pytest.png"/></p>
+<img alt="CICD pytest" src="./Docs/Screenshots/CICD%20Pytest.png" width="500"/>
 <p>If you move over to render you will see the logs mentioned that it was redeployed like this</p>
-<p><img alt="redeply" src="./Docs/Screenshots/Production%20Render%20Server%20Redeploy.png"/></p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<img alt="CICD pytest" src="./Docs/Screenshots/Production%20Render%20Server%20Redeploy.png" width="500"/>
+<p>That's it! You are done!</p>
 </div>
 </div>
 </div>

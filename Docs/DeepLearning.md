@@ -87,3 +87,8 @@ Deployment:
     - While deploying my code, I faced a compatibility error. Since I have been using a custom Tensorflow/Serving image that is made for my ARM chip, the same image does not run on Render as they used Linux
     - I solved this by using the "normal" Tensorflow Serving image when deploying and a custom one when running locally. It ain't great but I have to do it
     - I also changed the URL in the pytest and reran it. As expected it works flawlessly which means my render model is working.
+
+Changing Deployment:
+    - After viewing the current state of the repo, I find that the models are very large and not suitable to be present in a normal repo. Everytime the model is changed, it si very inefficent as git is not design to track models. 
+    - To fix this I will be attempting to use Git Large File Storage (LFS) to store my model isntead. 
+    - To enable it, we just need to check the LFS box shown in the screen shot called "Git LFS Setting"

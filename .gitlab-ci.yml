@@ -1,0 +1,40 @@
+stages:
+  - test_deploy
+  - test
+  - deploy
+
+test_deployment:
+  stage: test_deploy
+  script:
+    - curl -s "$TEST_DEPLOY"
+    - sleep 1m
+
+pytest:
+  stage: test
+  image: python:3.9.18
+  script:
+    - pip install -r requirements.txt
+    - python -m pytest --junitxml=report.xml
+    - TEST_CODE=$?
+    - echo "Test Exit Code: $TEST_CODE"
+    - |
+      if [ $TEST_CODE -eq 0 ]; then
+        echo "Tests are all passed!"
+      else
+        echo "Tests failed"
+        sleep 1m
+        exit 1
+      fi
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+  retry:
+    max: 2
+    when: 
+      - on_failure
+
+deployment:
+  stage: deploy
+  script:
+    - curl -s "$PROD_DEPLOY"

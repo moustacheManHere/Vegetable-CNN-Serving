@@ -8,7 +8,7 @@ test-cnn:
     - name: docker:20.10.12-dind
       alias: dind
   script:
-    - docker info
+    - dind info
     - docker pull tensorflow/serving:latest
     - pip install -r requirements.txt
     - docker run --name cnn_models -p 8501:8501 -v "./model_config.config:/models/model_config.config" -v "./cnn_large:/models/cnn_large" -v "./cnn_small:/models/cnn_small" -t tensorflow/serving:latest  --model_config_file=/models/model_config.config
